@@ -1,4 +1,4 @@
-import app from './App'
+import app from './app'
 const PORT = 8080
 
 module.exports = app.listen(process.env.PORT || PORT, () => {

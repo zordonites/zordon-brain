@@ -6,10 +6,11 @@
   "scripts": {
     "test": "jest",
     "bundle:watch": "webpack --watch",
+    "build": "webpack",
     "server": "nodemon --exec node build/server.js",
     "format": "prettier --write \"**/*.+(ts|json|js|)\"",
     "start": "concurrently \"yarn run bundle:watch\" \"yarn run server\"",
-    "production": "tsc && node build/index.js"
+    "production": "webpack && node build/index.js"
   },
   "author": "ctobolski",
   "license": "MIT",
