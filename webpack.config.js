@@ -1,5 +1,3 @@
-const { readdirSync } = require('fs')
-const webpack = require('webpack')
 const { join } = require('path')
 
 module.exports = {
@@ -18,5 +16,8 @@ module.exports = {
   output: {
     path: join(__dirname, 'build'),
     filename: 'server.js'
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.json']
   }
 }
