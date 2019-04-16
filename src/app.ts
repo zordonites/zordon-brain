@@ -2,12 +2,9 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import { Routes } from './routes'
 
-require('dotenv').config()
-
 class App {
   public app: express.Application
   public routeProvider: Routes = new Routes()
-
   constructor() {
     this.app = express()
     this.config()

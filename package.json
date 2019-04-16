@@ -15,9 +15,11 @@
   "author": "ctobolski",
   "license": "MIT",
   "devDependencies": {
+    "@types/axios": "0.14.0",
     "@types/express": "^4.16.1",
     "@types/jest": "^24.0.11",
     "@types/node": "^11.11.3",
+    "@types/qs": "6.5.3",
     "concurrently": "^4.1.0",
     "jest": "^24.5.0",
     "nodemon": "^1.18.10",
@@ -29,8 +31,10 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "dotenv": "^7.0.0",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "qs": "6.7.0"
   }
 }
