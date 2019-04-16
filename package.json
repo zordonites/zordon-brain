@@ -8,7 +8,8 @@
     "bundle:watch": "webpack --watch",
     "server": "nodemon --exec node build/server.js",
     "format": "prettier --write \"**/*.+(ts|json|js|)\"",
-    "start": "concurrently \"yarn run bundle:watch\" \"yarn run server\""
+    "start": "concurrently \"yarn run bundle:watch\" \"yarn run server\"",
+    "production": "tsc && node build/index.js"
   },
   "author": "ctobolski",
   "license": "MIT",
