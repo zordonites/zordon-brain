@@ -18,6 +18,7 @@
     "@types/axios": "0.14.0",
     "@types/express": "^4.16.1",
     "@types/jest": "^24.0.11",
+    "@types/jsonwebtoken": "8.3.2",
     "@types/node": "^11.11.3",
     "@types/qs": "6.5.3",
     "concurrently": "^4.1.0",
@@ -35,6 +36,7 @@
     "body-parser": "^1.18.3",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "jsonwebtoken": "8.5.1",
     "qs": "6.7.0"
   }
 }
