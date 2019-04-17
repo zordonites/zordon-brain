@@ -51,6 +51,7 @@ export async function refreshTokens() {
     updateCredentials(access_token, refresh_token)
     return access_token
   } catch (error) {
+    console.log('Refresh Error:', error)
     throw new Error('Failed to refresh token')
   }
 }
@@ -60,6 +61,8 @@ async function handleError(error: any) {
   if (!error.response) {
     return Promise.reject(error)
   }
+
+  console.log('Error response status:', error.response.status)
 
   if (error.response.status === 401) {
     try {
