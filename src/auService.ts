@@ -7,7 +7,7 @@ export async function vehicleDataForVin(vin = process.env.VIN) {
     `https://api.autonomic.ai/1/assetstate/${tenant_id}/`,
     {
       request_id: '12345',
-      fields: ['location'],
+      fields: ['location', 'fuel_level_percentage', 'oil_life_remaining'],
       scopes: [
         {
           filter: `vin:(${vin})`
