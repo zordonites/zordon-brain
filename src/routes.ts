@@ -1,5 +1,5 @@
 import { Request, Response, Application } from 'express'
-import { vehicleDataForVin } from './auService'
+import { vehicleDataForVin, oilLifeRemainingForVin } from './auService'
 
 export class Routes {
   public routes(app: Application): void {
@@ -10,6 +10,11 @@ export class Routes {
     app.route('/vehicle-data').get(async (req: Request, res: Response) => {
       const data = await vehicleDataForVin()
       res.send(data[0])
+    })
+
+    app.route('/oil-life').get(async (req: Request, res: Response) => {
+      const data = await oilLifeRemainingForVin()
+      res.send(data)
     })
   }
 }
