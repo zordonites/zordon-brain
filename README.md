@@ -7,3 +7,5 @@
 - client_secret
 - realm
 - tenant_id
+- auth0_domain
+- auth0_audience
