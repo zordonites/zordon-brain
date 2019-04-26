@@ -43,6 +43,7 @@ export class Routes {
     }
 
     app.route('/login').get(checkJwt, async (req: Request, res: Response) => {
+      //TODO: break out endpoints to be restful
       const token = req.headers.authorization!
       const { sub } = decode(token.replace('Bearer ', '')) as AccessToken
       try {
@@ -52,6 +53,32 @@ export class Routes {
         res.status(500).send({ error })
       }
     })
+
+    app
+      .route('/user/:id')
+      .patch(checkJwt, async (req: Request, res: Response) => {
+        //TODO: handle user fetching in middleware??
+        const token = req.headers.authorization!
+        const { sub } = decode(token.replace('Bearer ', '')) as AccessToken
+        try {
+          const user = await getUser(sub)
+          if (user.id == req.params.id) {
+            const updatedUser = await updateVin(req.params.id, req.body.vin)
+            res.send({ user: updatedUser })
+          } else {
+            res.status(403).send({ error: 'Unauthorized user' })
+          }
+        } catch (error) {
+          res.status(500).send({ error })
+        }
+      })
+
+    async function updateVin(id: number, vin: string) {
+      const result = await db.query(
+        `UPDATE USERS SET vin = '${vin}' where id = '${id}' RETURNING id, sub, vin;`
+      )
+      return result.rows[0]
+    }
 
     async function getUser(sub: string) {
       const result = await db.query(`SELECT * from USERS where sub = '${sub}'`)
@@ -64,11 +91,9 @@ export class Routes {
 
     async function registerUser(sub: string) {
       const result = await db.query(
-        `INSERT INTO USERS (sub) values ('${sub}') RETURNING id, sub, VIN;`
+        `INSERT INTO USERS (sub) values ('${sub}') RETURNING id, sub, vin;`
       )
       return result.rows[0]
     }
-
-    // endpoint to create user
   }
 }
