@@ -2,12 +2,18 @@ import axios from 'axios'
 
 const tenant_id = process.env.TENANT_ID
 
-export async function vehicleDataForVin(vin = process.env.VIN) {
+export async function vehicleDataForVin(vin: string) {
   const result = await axios.post(
     `https://api.autonomic.ai/1/assetstate/${tenant_id}/`,
     {
       request_id: '12345',
-      fields: ['location', 'fuel_level_percentage', 'oil_life_remaining'],
+      fields: [
+        'location',
+        'fuel_level_percentage',
+        'oil_life_remaining',
+        'model',
+        'year'
+      ],
       scopes: [
         {
           filter: `vin:(${vin})`
@@ -18,7 +24,7 @@ export async function vehicleDataForVin(vin = process.env.VIN) {
   return result.data
 }
 
-export async function oilLifeRemainingForVin(vin = process.env.VIN) {
+export async function oilLifeRemainingForVin(vin: string) {
   const result = await axios.post(
     `https://api.autonomic.ai/2/timeseries/${tenant_id}/query`,
     {

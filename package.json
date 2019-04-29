@@ -9,7 +9,7 @@
     "build": "tsc",
     "server": "nodemon --exec node build/index.js",
     "format": "prettier --write \"**/*.+(ts|json|js|)\"",
-    "start": "concurrently \"yarn run build:watch\" \"yarn run server\"",
+    "start": "concurrently \"yarn build:watch\" \"yarn server\"",
     "production": "tsc && node build/index.js"
   },
   "author": "ctobolski",

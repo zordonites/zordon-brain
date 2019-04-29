@@ -18,23 +18,33 @@ const checkJwt = jwt({
   algorithms: ['RS256']
 })
 
+const validateVin = (req: Request, res: Response, next: Function) => {
+  if (req.headers['vin'] === 'undefined') {
+    res.status(400).send()
+  } else {
+    next()
+  }
+}
+
 export class Routes {
   public routes(app: Application): void {
-    app.route('/').get(checkJwt, (req: Request, res: Response) => {
+    app.route('/').get(checkJwt, validateVin, (req: Request, res: Response) => {
       res.send('Hello World!')
     })
 
     app
       .route('/vehicle-data')
-      .get(checkJwt, async (req: Request, res: Response) => {
-        const data = await vehicleDataForVin()
+      .get(checkJwt, validateVin, async (req: Request, res: Response) => {
+        const vin = req.headers['vin'] as string
+        const data = await vehicleDataForVin(vin)
         res.send(data[0])
       })
 
     app
       .route('/oil-life')
-      .get(checkJwt, async (req: Request, res: Response) => {
-        const data = await oilLifeRemainingForVin()
+      .get(checkJwt, validateVin, async (req: Request, res: Response) => {
+        const vin = req.headers['vin'] as string
+        const data = await oilLifeRemainingForVin(vin)
         res.send(data)
       })
 
