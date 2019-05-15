@@ -1,0 +1,13 @@
+---
+defaults: &defaults
+  buildpacks:
+    - nodejs_buildpack #pcf should use the proper buildpack if it notices a package.json file, but the buildpack url did not work so we used the named buildpack
+  command: node index.js #Node.js apps require a start command, this is the entrypoint to our app
+  path: build/ #where the built app lives + source maps
+  memory: 128M
+  env:
+    OPTIMIZE_MEMORY: true # Node does not know how much memory it is allowed to use, and thus sometimes allows the garbage collector to wait past the allowed amount of memory. This resolves this
+
+applications:
+  - name: zordon-brain
+    <<: *defaults

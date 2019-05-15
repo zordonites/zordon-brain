@@ -7,6 +7,7 @@
     "test": "jest",
     "build:watch": "tsc --watch",
     "build": "tsc",
+    "build:prod": "rm -rf build/ && yarn build && cp package.json build/",
     "server": "nodemon --exec node build/index.js",
     "format": "prettier --write \"**/*.+(ts|json|js|)\"",
     "start": "concurrently \"yarn build:watch\" \"yarn server\"",
