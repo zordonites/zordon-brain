@@ -14,3 +14,4 @@ jobs:
           cf target -o fordvip -s development
           ls -al
           pwd
+          whoami
