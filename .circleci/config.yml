@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/node:lts
     working_directory: ~/repo
-    steps: 
+    steps:
       - run: |
           curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
           sudo dpkg -i cf-cli_amd64.deb
@@ -12,4 +12,5 @@ jobs:
           cf api https://api.run.pivotal.io  # alternately target your private Cloud Foundry deployment
           cf auth "$CF_DEVUSER" "$CF_DEVPASSWORD"
           cf target -o fordvip -s development
-          yarn build:prod
+          ls -al
+          pwd
