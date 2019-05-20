@@ -13,6 +13,5 @@ jobs:
           cf api https://api.run.pivotal.io  # alternately target your private Cloud Foundry deployment
           cf auth "$CF_DEVUSER" "$CF_DEVPASSWORD"
           cf target -o fordvip -s development
-          ls -al
-          pwd
-          whoami
+          yarn build:prod
+          cf push zordon-brain
