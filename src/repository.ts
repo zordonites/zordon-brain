@@ -16,7 +16,7 @@ client
   )`)
 
     client.query(
-      `ALTER TABLE users ADD COLUMN IF NOT EXISTS device_token varchar(50)`
+      `ALTER TABLE users ADD COLUMN IF NOT EXISTS device_token varchar(125)`
     )
   })
   .catch(error => {
