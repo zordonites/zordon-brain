@@ -74,6 +74,7 @@ export class Routes {
           const user = await getUser(sub)
           // if request body has token
           if (req.body.device_token) {
+            console.log('token', req.body.device_token)
             if (user.id == req.params.id) {
               const updatedUser = await updateDeviceToken(
                 req.params.id,
@@ -107,6 +108,7 @@ export class Routes {
     }
 
     async function updateDeviceToken(id: number, device_token: string) {
+      console.log('device token', device_token)
       const result = await db.query(
         `UPDATE USERS SET device_token = '${device_token}' where id = '${id}' RETURNING id, sub, device_token;`
       )
