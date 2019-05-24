@@ -2,6 +2,8 @@ import { Request, Response, Application } from 'express'
 import { vehicleDataForVin, oilLifeRemainingForVin } from './auService'
 import { decode } from 'jsonwebtoken'
 import db from './repository'
+import apn from 'apn'
+
 const jwt = require('express-jwt')
 var jwksRsa = require('jwks-rsa')
 
@@ -25,6 +27,18 @@ const validateVin = (req: Request, res: Response, next: Function) => {
     next()
   }
 }
+
+// let key = require('./certificates/AuthKey_LKPG4RW9UW.p8')
+// console.log(key)
+
+const apns = new apn.Provider({
+  token: {
+    key: process.env.APNS_KEY!,
+    keyId: process.env.APNS_KEY_ID!,
+    teamId: process.env.APNS_TEAM_ID!
+  },
+  production: false
+})
 
 export class Routes {
   public routes(app: Application): void {
@@ -99,6 +113,29 @@ export class Routes {
           res.status(500).send({ error })
         }
       })
+
+    app.route('/lock').post(checkJwt, async (req: Request, res: Response) => {
+      const token = req.headers.authorization!
+      const { sub } = decode(token.replace('Bearer ', '')) as AccessToken
+      try {
+        const user = await getUser(sub)
+        let notification = new apn.Notification()
+        notification.badge = 3
+        notification.sound = 'ping.aiff'
+        notification.alert = `You are ${
+          req.body.distance
+        } meters away from your car, is it locked?`
+        notification.topic = 'com.ford.Zordon'
+        try {
+          await apns.send(notification, user.device_token)
+        } catch (error) {
+          console.log('cannot send apns', error)
+        }
+      } catch (error) {
+        console.log(error)
+        res.status(500).send({ error })
+      }
+    })
 
     async function updateVin(id: number, vin: string) {
       const result = await db.query(
