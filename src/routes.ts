@@ -28,7 +28,6 @@ const validateVin = (req: Request, res: Response, next: Function) => {
   }
 }
 
-console.log(process.env.APNS_KEY)
 const apns = new apn.Provider({
   token: {
     key: `${process.env.APNS_KEY!}`,
@@ -125,7 +124,9 @@ export class Routes {
         } meters away from your car, is it locked?`
         notification.topic = 'com.ford.Zordon'
         try {
-          await apns.send(notification, user.device_token)
+          setTimeout(async () => {
+            await apns.send(notification, user.device_token)
+          }, 7000)
         } catch (error) {
           console.log('cannot send apns', error)
         }
