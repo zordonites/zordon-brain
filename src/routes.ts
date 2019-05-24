@@ -28,9 +28,7 @@ const validateVin = (req: Request, res: Response, next: Function) => {
   }
 }
 
-// let key = require('./certificates/AuthKey_LKPG4RW9UW.p8')
-// console.log(key)
-
+console.log(process.env.APNS_KEY)
 const apns = new apn.Provider({
   token: {
     key: process.env.APNS_KEY!,
