@@ -34,7 +34,7 @@ const apns = new apn.Provider({
     keyId: process.env.APNS_KEY_ID!,
     teamId: process.env.APNS_TEAM_ID!
   },
-  production: false
+  production: true
 })
 
 export class Routes {
