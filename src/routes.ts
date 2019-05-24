@@ -72,11 +72,27 @@ export class Routes {
         const { sub } = decode(token.replace('Bearer ', '')) as AccessToken
         try {
           const user = await getUser(sub)
-          if (user.id == req.params.id) {
-            const updatedUser = await updateVin(req.params.id, req.body.vin)
-            res.send({ user: updatedUser })
-          } else {
-            res.status(403).send({ error: 'Unauthorized user' })
+          // if request body has token
+          if (req.body.device_token) {
+            if (user.id == req.params.id) {
+              const updatedUser = await updateDeviceToken(
+                req.params.id,
+                req.body.device_token
+              )
+              res.send({ user: updatedUser })
+            } else {
+              res.status(403).send({ error: 'Unauthorized user' })
+            }
+          }
+
+          // if request body has VIN
+          if (req.body.vin) {
+            if (user.id == req.params.id) {
+              const updatedUser = await updateVin(req.params.id, req.body.vin)
+              res.send({ user: updatedUser })
+            } else {
+              res.status(403).send({ error: 'Unauthorized user' })
+            }
           }
         } catch (error) {
           res.status(500).send({ error })
@@ -86,6 +102,13 @@ export class Routes {
     async function updateVin(id: number, vin: string) {
       const result = await db.query(
         `UPDATE USERS SET vin = '${vin}' where id = '${id}' RETURNING id, sub, vin;`
+      )
+      return result.rows[0]
+    }
+
+    async function updateDeviceToken(id: number, device_token: string) {
+      const result = await db.query(
+        `UPDATE USERS SET device_token = '${device_token}' where id = '${id}' RETURNING id, sub, device_token;`
       )
       return result.rows[0]
     }

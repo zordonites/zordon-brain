@@ -14,6 +14,10 @@ client
     "sub" varchar(30) NOT NULL,
     "vin" varchar(17)
   )`)
+
+    client.query(
+      `ALTER TABLE users ADD COLUMN IF NOT EXISTS device_token varchar(50)`
+    )
   })
   .catch(error => {
     console.log('Failed to connect to DB', error)
